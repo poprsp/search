@@ -5,7 +5,7 @@ import os
 from typing import List
 
 Page = collections.namedtuple("Page", "url, words")
-Score = collections.namedtuple("Score", "total, frequency, location")
+Score = collections.namedtuple("Score", "total, content, location")
 Rank = collections.namedtuple("Rank", "url, score")
 
 
@@ -30,40 +30,40 @@ class Dataset:
         Returns:
             List[Rank]: A list of sorted pages.
         """
-        frequency_scores = []
+        content_scores = []
         location_scores = []
 
         # Calculate scores for every page
         for page in self._pages:
-            frequency_scores.append(self._get_frequency_score(page, query))
+            content_scores.append(self._get_content_score(page, query))
             location_scores.append(self._get_location_score(page, query))
 
         # Normalize the scores
-        self._normalize(frequency_scores, False)
+        self._normalize(content_scores, False)
         self._normalize(location_scores, True)
 
         # Return the results sorted by the total score
         result = []
-        elements = zip(self._pages, frequency_scores, location_scores)
-        for page, frequency_score, location_score in elements:
+        elements = zip(self._pages, content_scores, location_scores)
+        for page, content_score, location_score in elements:
             score = Score(
-                total=frequency_score + 0.5 * location_score,
-                frequency=frequency_score,
+                total=content_score + 0.5 * location_score,
+                content=content_score,
                 location=location_score)
             result.append(Rank(page.url, score))
         result.sort(key=lambda r: r.score.total, reverse=True)
         return result
 
-    def _get_frequency_score(self, page: Page, query: str) -> float:
+    def _get_content_score(self, page: Page, query: str) -> float:
         """
-        Calculate frequency score.
+        Calculate content score.
 
         Args:
             page: Target page.
             query: Search query.
 
         Returns:
-            float: Frequency score.
+            float: Content score.
         """
         score = 0
         for word in query.split():
