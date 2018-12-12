@@ -97,6 +97,8 @@ class Dataset:
         return word_list
 
     def _get_word_id(self, word: str) -> int:
+        word = word.lower()
+
         word_id = self._word_map.get(word, -1)
         if word_id != -1:
             return word_id
