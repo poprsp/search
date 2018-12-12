@@ -18,7 +18,7 @@ class Search(flask_restful.Resource):  # type: ignore
     def get(query: str, limit: int) -> List[Dict[str, Dict[str, float]]]:
         return [{
             "url": r.url,
-            "scores": r.score._asdict()
+            "score": r.score._asdict()
         } for r in dataset.search(query)[:limit]]
 
 

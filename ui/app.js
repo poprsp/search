@@ -29,17 +29,17 @@ function search(query) {
         row.appendChild(url);
 
         const score = document.createElement("td");
-        const scoreFixed = item.scores.total.toFixed(2);
+        const scoreFixed = item.score.total.toFixed(2);
         score.appendChild(document.createTextNode(scoreFixed));
         row.appendChild(score);
 
         const content = document.createElement("td");
-        const contentFixed = item.scores.content.toFixed(2);
+        const contentFixed = item.score.content.toFixed(2);
         content.appendChild(document.createTextNode(contentFixed));
         row.appendChild(content);
 
         const location = document.createElement("td");
-        const locationFixed = item.scores.location.toFixed(2);
+        const locationFixed = item.score.location.toFixed(2);
         location.appendChild(document.createTextNode(locationFixed));
         row.appendChild(location);
 
