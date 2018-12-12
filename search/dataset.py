@@ -5,6 +5,7 @@ import os
 from typing import List
 
 Page = collections.namedtuple("Page", "url, words")
+Score = collections.namedtuple("Score", "total, frequency, location")
 Rank = collections.namedtuple("Rank", "page, score")
 
 
@@ -41,13 +42,16 @@ class Dataset:
         self._normalize(frequency_scores, False)
         self._normalize(location_scores, True)
 
-        # Return the results sorted by score
-        result = [
-            Rank(page, frequency_score + 0.5 * location_score)
-            for page, frequency_score, location_score in zip(
-                self._pages, frequency_scores, location_scores)
-        ]
-        result.sort(key=lambda r: r.score, reverse=True)
+        # Return the results sorted by the total score
+        result = []
+        elements = zip(self._pages, frequency_scores, location_scores)
+        for page, frequency_score, location_score in elements:
+            score = Score(
+                total=frequency_score + 0.5 * location_score,
+                frequency=frequency_score,
+                location=location_score)
+            result.append(Rank(page, score))
+        result.sort(key=lambda r: r.score.total, reverse=True)
         return result
 
     def _get_frequency_score(self, page: Page, query: str) -> float:
