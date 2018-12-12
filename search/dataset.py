@@ -6,7 +6,7 @@ from typing import List
 
 Page = collections.namedtuple("Page", "url, words")
 Score = collections.namedtuple("Score", "total, frequency, location")
-Rank = collections.namedtuple("Rank", "page, score")
+Rank = collections.namedtuple("Rank", "url, score")
 
 
 class Dataset:
@@ -50,7 +50,7 @@ class Dataset:
                 total=frequency_score + 0.5 * location_score,
                 frequency=frequency_score,
                 location=location_score)
-            result.append(Rank(page, score))
+            result.append(Rank(page.url, score))
         result.sort(key=lambda r: r.score.total, reverse=True)
         return result
 
