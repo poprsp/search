@@ -4,9 +4,22 @@ import collections
 import os
 from typing import List
 
-Page = collections.namedtuple("Page", "url, words")
 Score = collections.namedtuple("Score", "total, content, location")
 Rank = collections.namedtuple("Rank", "url, score")
+
+
+class Page:
+    def __init__(self, url: str, words: List[int]) -> None:
+        self._url = url
+        self._words = words
+
+    @property
+    def url(self) -> str:
+        return self._url
+
+    @property
+    def words(self) -> List[int]:
+        return self._words
 
 
 class Dataset:
