@@ -27,8 +27,8 @@ class Dataset:
         return word_list
 
     def _get_word_id(self, word: str) -> int:
-        word_id = self._word_map.get(word)
-        if word_id:
+        word_id = self._word_map.get(word, -1)
+        if word_id != -1:
             return word_id
 
         word_id = len(self._word_map)
