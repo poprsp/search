@@ -43,6 +43,11 @@ function search(query) {
         location.appendChild(document.createTextNode(locationFixed));
         row.appendChild(location);
 
+        const pageRank = document.createElement("td");
+        const pageRankFixed = item.score.page_rank.toFixed(2);
+        pageRank.appendChild(document.createTextNode(pageRankFixed));
+        row.appendChild(pageRank);
+
         result.appendChild(row);
         console.log(item);
       }
