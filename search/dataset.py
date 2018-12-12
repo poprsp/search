@@ -128,12 +128,6 @@ class Dataset:
                 score += 99999
         return score
 
-    def _get_page(self, name: str) -> Page:
-        for page in self._pages:
-            if page.name == name:
-                return page
-        raise ValueError("{} does not exist".format(name))
-
     def _get_words(self, path: str) -> List[int]:
         word_list = []
         with open(path, "r") as f:
