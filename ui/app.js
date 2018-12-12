@@ -49,7 +49,6 @@ function search(query) {
         row.appendChild(pageRank);
 
         result.appendChild(row);
-        console.log(item);
       }
     });
 }
