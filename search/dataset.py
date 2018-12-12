@@ -9,8 +9,9 @@ Rank = collections.namedtuple("Rank", "url, score")
 
 
 class Page:
-    def __init__(self, url: str, words: List[int]) -> None:
+    def __init__(self, url: str, name: str, words: List[int]) -> None:
         self._url = url
+        self._name = name
         self._words = words
 
     @property
@@ -18,20 +19,30 @@ class Page:
         return self._url
 
     @property
+    def name(self) -> str:
+        return self._name
+
+    @property
     def words(self) -> List[int]:
         return self._words
 
 
 class Dataset:
-    def __init__(self, basedir: str) -> None:
+    def __init__(self, words_path: str) -> None:
+        """
+        Read a dataset of words and links.
+
+        Args:
+            words_path: base path to the directory of words.
+        """
         self._word_map = {}  # type: Dict[str, int]
         self._pages = []  # type: List[Page]
 
-        for dirpath, _, filenames in os.walk(basedir):
+        for dirpath, _, filenames in os.walk(words_path):
             for filename in filenames:
                 path = os.path.join(dirpath, filename)
                 words = self._get_words(path)
-                self._pages.append(Page(path, words))
+                self._pages.append(Page(path, path[len(words_path):], words))
 
     def search(self, query: str) -> List[Rank]:
         """
