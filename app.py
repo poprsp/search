@@ -10,7 +10,8 @@ import search
 
 app = flask.Flask(__name__)
 api = flask_restful.Api(app)
-dataset = search.Dataset("data/wikipedia/Words", "data/wikipedia/Links")
+dataset = search.Dataset("data/wikipedia/Words", "data/wikipedia/Links",
+                         "/wiki/{filename}")
 
 
 class Search(flask_restful.Resource):  # type: ignore

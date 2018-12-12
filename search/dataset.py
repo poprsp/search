@@ -34,13 +34,15 @@ class Page:
 
 
 class Dataset:
-    def __init__(self, words_path: str, links_path: str) -> None:
+    def __init__(self, words_path: str, links_path: str,
+                 name_format: str) -> None:
         """
         Read a dataset of words and links.
 
         Args:
             words_path: base path to the directory of words.
             links_path: base path to the directory of links.
+            name_format: Format that specifies how a given page is linked to.
         """
         self._word_map = {}  # type: Dict[str, int]
         self._pages = []  # type: List[Page]
@@ -48,9 +50,10 @@ class Dataset:
         for dirpath, _, filenames in os.walk(words_path):
             for filename in filenames:
                 path = os.path.join(dirpath, filename)
-                name = path[len(words_path) + 1:]
+                name = name_format.format(path=path, filename=filename)
                 words = self._get_words(path)
-                links = self._get_links(os.path.join(links_path, name))
+                common_path = path[len(words_path) + 1:]
+                links = self._get_links(os.path.join(links_path, common_path))
                 self._pages.append(Page(path, name, words, links))
 
     def search(self, query: str) -> List[Rank]:
