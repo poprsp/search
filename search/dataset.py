@@ -47,7 +47,7 @@ class Dataset:
         elements = zip(self._pages, content_scores, location_scores)
         for page, content_score, location_score in elements:
             score = Score(
-                total=content_score + 0.5 * location_score,
+                total=content_score + 0.8 * location_score,
                 content=content_score,
                 location=location_score)
             result.append(Rank(page.url, score))
