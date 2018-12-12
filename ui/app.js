@@ -22,7 +22,7 @@ function search(query) {
 
         const url = document.createElement("td");
         const a = document.createElement("a");
-        const urlSplit = item.url.split("/");
+        const urlSplit = decodeURIComponent(item.url).split("/");
         a.appendChild(document.createTextNode(urlSplit[urlSplit.length - 1]));
         a.setAttribute("href", item.url);
         url.appendChild(a);
