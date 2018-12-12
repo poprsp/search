@@ -101,12 +101,13 @@ class Dataset:
         result = []
         elements = zip(self._pages, content_scores, location_scores)
         for page, content_score, location_score in elements:
+            location_score *= 0.8
+            page_rank = page.page_rank * 0.5
             score = Score(
-                total=content_score + 0.8 * location_score + 0.5 *
-                page.page_rank,
+                total=content_score + location_score + page_rank,
                 content=content_score,
                 location=location_score,
-                page_rank=page.page_rank)
+                page_rank=page_rank)
             result.append(Rank(page.url, score))
         result.sort(key=lambda r: r.score.total, reverse=True)
         return result
