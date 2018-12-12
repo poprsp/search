@@ -33,6 +33,11 @@ def ui(filename: str) -> flask.Response:
     return flask.send_from_directory("ui", filename, cache_timeout=1)
 
 
+@app.route("/data/<path:path>")
+def data(path: str) -> flask.Response:
+    return flask.send_from_directory("data", path, mimetype="text/plain")
+
+
 def main() -> int:
     app.run(host=len(sys.argv) > 1 and sys.argv[1] or "127.0.0.1")
     return 0
