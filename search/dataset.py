@@ -113,6 +113,7 @@ class Dataset:
         return result
 
     def _calculate_page_rank(self) -> None:
+        # Calculate page rank for every page
         for _ in range(self._page_rank_iterations):
             for target in self._pages:
                 page_rank = 0.0
@@ -124,6 +125,12 @@ class Dataset:
                         pass
                 target.page_rank = self._page_rank_damping_factor * page_rank \
                     + self._page_rank_minimum_value
+
+        # Normalize the ranks
+        page_ranks = [page.page_rank for page in self._pages]
+        self._normalize(page_ranks, False)
+        for page in self._pages:
+            page.page_rank = page_ranks.pop(0)
 
     def _get_content_score(self, page: Page, query: str) -> float:
         """
